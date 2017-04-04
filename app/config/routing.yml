@@ -1,0 +1,3 @@
+pb_booking:
+    resource: "@PBBookingBundle/Resources/config/routing.yml"
+    prefix:   /

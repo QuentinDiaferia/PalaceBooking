@@ -1,0 +1,32 @@
+# src/PB/BookingBundle/Resources/config/routing.yml
+
+pb_booking_home:
+    path:     /
+    defaults:
+        _controller: PBBookingBundle:Booking:index
+
+pb_booking_view:
+    path:     /booking/{id}
+    defaults:
+        _controller: PBBookingBundle:Booking:view
+    requirements:
+        id: \d+
+
+pb_booking_add:
+    path:     /add
+    defaults:
+        _controller: PBBookingBundle:Booking:add
+
+pb_booking_edit:
+    path:     /edit/{id}
+    defaults:
+        _controller: PBBookingBundle:Booking:edit
+    requirements:
+        id: \d+
+
+pb_booking_cancel:
+    path:     /cancel/{id}
+    defaults:
+        _controller: PBBookingBundle:Booking:cancel
+    requirements:
+        id: \d+
