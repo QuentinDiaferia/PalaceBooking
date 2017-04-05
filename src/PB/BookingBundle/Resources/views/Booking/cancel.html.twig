@@ -10,5 +10,18 @@
 
 	<h2>Annuler une réservation</h2>
 
+	<p>Vous êtes sûr ?</p>
+
+	<form action="{{ path('pb_booking_cancel', {'id': booking.id}) }}" method="post">
+        <a href="{{ path('pb_booking_view', {'id': booking.id}) }}" class="btn btn-default">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+            Retour à l'annonce
+        </a>
+
+        <input type="submit" value="Annuler" class="btn btn-danger" />
+
+        {{ form_rest(form) }} 
+    </form>
+
 
 {% endblock %}

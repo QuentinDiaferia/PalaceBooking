@@ -8,7 +8,28 @@
 
 {% block pbbooking_body %}
 
-	<h2>Calendrier</h2>
+	<h2>Toutes les réservations</h2>
+
+	<table class="table table-hover">
+		<tr><th>Arrivée</th><th>Départ</th><th>Convives</th><th>Etat</th><th>Action</th></tr>
+		{% for booking in listBookings %}
+			<tr>
+				<td>{{ booking.start|date('d/m/Y') }}</td>
+				<td>{{ booking.end|date('d/m/Y') }}</td>
+				<td>{{ booking.nbHosts }}</td>
+				<td>
+					{% if booking.accepted is null %}
+						En attente
+					{% elseif booking.accepted %}
+						Refusée
+					{% else %}
+						Acceptée
+					{% endif %}
+				</td>
+				<td><a href="booking/{{ booking.id }}">Détails</a></td>
+			</tr>
+		{% endfor %}
+	</table>
 	
 
 {% endblock %}
