@@ -10,5 +10,44 @@
 
 	<h2>Réservation</h2>
 
+	{% for message in app.session.flashbag.get('notice') %}
+		<p>{{ message }}</p>
+	{% endfor %}
+
+	<i>Demande de réservation par Quelqu'un</i>
+
+	<table class="table">
+		<tr><th>Arrivée</th><td>{{ booking.start|date('d/m/Y') }}</td></tr>
+		<tr><th>Départ</th><td>{{ booking.end|date('d/m/Y') }}</td></tr>
+		<tr><th>Message</th><td>{{ booking.content }}</td></tr>
+		<tr>
+			<th>Statut</th>
+			<td>
+				{% if booking.accepted is null %}
+					En attente
+				{% elseif booking.accepted %}
+					Refusée
+				{% else %}
+					Acceptée
+				{% endif %}
+			</td>
+		</tr>
+	</table>
+
+	<p>
+		<a href="{{ path('pb_booking_home') }}" class="btn btn-default">
+			<i class="glyphicon glyphicon-chevron-left"></i>
+			Retour à la liste
+		</a>
+		<a href="{{ path('pb_booking_edit', {'id': booking.id}) }}" class="btn btn-default">
+			<i class="glyphicon glyphicon-edit"></i>
+			Modifier la réservation
+			</a>
+		<a href="{{ path('pb_booking_cancel', {'id': booking.id}) }}" class="btn btn-danger">
+			<i class="glyphicon glyphicon-trash"></i>
+			Annuler la réservation
+		</a>
+	</p>
+
 
 {% endblock %}
