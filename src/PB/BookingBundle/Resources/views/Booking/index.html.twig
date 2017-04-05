@@ -10,6 +10,10 @@
 
 	<h2>Toutes les réservations</h2>
 
+	{% for message in app.session.flashbag.get('notice') %}
+		<p>{{ message }}</p>
+	{% endfor %}
+
 	<table class="table table-hover">
 		<tr><th>Arrivée</th><th>Départ</th><th>Convives</th><th>Etat</th><th>Action</th></tr>
 		{% for booking in listBookings %}

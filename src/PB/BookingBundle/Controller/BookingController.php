@@ -86,7 +86,8 @@ class BookingController extends Controller {
 
     public function cancelAction(Request $request, $id) {
 
-        $booking = $this->getDoctrine()->getManager()->getRepository('PBBookingBundle:Booking')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('PBBookingBundle:Booking')->find($id);
 
         if ($booking === null) {
             throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
@@ -96,8 +97,8 @@ class BookingController extends Controller {
 
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
-            /*$em->remove($booking);
-            $em->flush();*/
+            $em->remove($booking);
+            $em->flush();
 
             $request->getSession()->getFlashBag()->add('notice', 'Réservation annulée.');
 
