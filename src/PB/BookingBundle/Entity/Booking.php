@@ -25,6 +25,7 @@ class Booking {
      * @var \DateTime
      *
      * @ORM\Column(name="start", type="datetime")
+     * @Assert\DateTime()
      */
     private $start;
 
@@ -32,6 +33,7 @@ class Booking {
      * @var \DateTime
      *
      * @ORM\Column(name="end", type="datetime")
+     * @Assert\DateTime()
      */
     private $end;
 
@@ -39,6 +41,7 @@ class Booking {
      * @var int
      *
      * @ORM\Column(name="nb_hosts", type="integer")
+     * @Assert\Range(min=1, max=2)
      */
     private $nbHosts;
 
@@ -46,6 +49,7 @@ class Booking {
      * @var string
      *
      * @ORM\Column(name="content", type="text")
+     * @Assert\NotBlank()
      */
     private $content;
 

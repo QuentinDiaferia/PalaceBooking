@@ -14,12 +14,26 @@ use PB\BookingBundle\Form\BookingType;
 class BookingController extends Controller {
 
     public function indexAction() {
-        return $this->render('PBBookingBundle:Booking:index.html.twig');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $listBookings = $em->getRepository('PBBookingBundle:Booking')->findAll();
+
+        return $this->render('PBBookingBundle:Booking:index.html.twig', array(
+            'listBookings' => $listBookings
+        ));
     }
 
     public function viewAction($id) {
+
+        $booking = $this->getDoctrine()->getManager()->getRepository('PBBookingBundle:Booking')->find($id);
+
+        if ($booking === null) {
+            throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
+        }
+
     	return $this->render('PBBookingBundle:Booking:booking.html.twig', array(
-    		'id' => $id
+    		'booking' => $booking
     	));
     }
 
@@ -30,14 +44,14 @@ class BookingController extends Controller {
     	$form = $this->createForm(BookingType::class, $booking);
 
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
-			// Si on a ajouté une réservation
+
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($booking);
 			$em->flush();
 
 			$request->getSession()->getFlashBag()->add('notice', 'Réservation enregistrée.');
 
-			return $this->redirectToRoute('pb_booking_view', array('id' => $booking->getId()));
+            return $this->redirectToRoute('pb_booking_view', array('id' => $booking->getId()));
 		}
 
     	return $this->render('PBBookingBundle:Booking:add.html.twig', array(
@@ -46,15 +60,53 @@ class BookingController extends Controller {
 
     }
 
-	public function editAction($id) {
+	public function editAction(Request $request, $id) {
+
+        $booking = $this->getDoctrine()->getManager()->getRepository('PBBookingBundle:Booking')->find($id);
+
+        if ($booking === null) {
+            throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
+        }
+
+        $form = $this->createForm(BookingType::class, $booking);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $booking->setAccepted(null);
+
+            $request->getSession()->getFlashBag()->add('notice', 'Réservation modifiée.');
+
+            return $this->redirectToRoute('pb_booking_view', array('id' => $booking->getId()));
+        }
+
     	return $this->render('PBBookingBundle:Booking:edit.html.twig', array(
-    		'id' => $id
+    		'form' => $form->createView()
     	));
     }
 
-    public function cancelAction($id) {
+    public function cancelAction(Request $request, $id) {
+
+        $booking = $this->getDoctrine()->getManager()->getRepository('PBBookingBundle:Booking')->find($id);
+
+        if ($booking === null) {
+            throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
+        }
+
+        $form = $this->get('form.factory')->create();
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            /*$em->remove($booking);
+            $em->flush();*/
+
+            $request->getSession()->getFlashBag()->add('notice', 'Réservation annulée.');
+
+            return $this->redirectToRoute('pb_booking_home');
+        }
+
     	return $this->render('PBBookingBundle:Booking:cancel.html.twig', array(
-    		'id' => $id
+    		'booking' => $booking,
+            'form' => $form->createView()
     	));
     }
 }
