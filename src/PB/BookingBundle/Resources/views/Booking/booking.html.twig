@@ -19,6 +19,7 @@
 	<table class="table">
 		<tr><th>Arrivée</th><td>{{ booking.start|date('d/m/Y') }}</td></tr>
 		<tr><th>Départ</th><td>{{ booking.end|date('d/m/Y') }}</td></tr>
+		<tr><th>Convives</th><td>{{ booking.nbHosts }}</td></tr>
 		<tr><th>Description</th><td>{{ booking.content }}</td></tr>
 		<tr>
 			<th>Statut</th>
