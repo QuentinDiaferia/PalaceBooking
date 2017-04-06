@@ -30,3 +30,21 @@ pb_booking_cancel:
         _controller: PBBookingBundle:Booking:cancel
     requirements:
         id: \d+
+
+pb_booking_validate:
+    path:    /validate/{id}
+    defaults:
+        _controller: PBBookingBundle:Booking:validate
+    requirements:
+        id: \d+
+
+login:
+    path: login
+    defaults:
+        _controller: PBUserBundle:Security:login
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout

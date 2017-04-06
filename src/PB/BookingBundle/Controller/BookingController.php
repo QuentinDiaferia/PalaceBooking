@@ -7,6 +7,7 @@ namespace PB\BookingBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 use PB\BookingBundle\Entity\Booking;
 use PB\BookingBundle\Form\BookingType;
@@ -109,5 +110,13 @@ class BookingController extends Controller {
     		'booking' => $booking,
             'form' => $form->createView()
     	));
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function validateAction(Request $request, $id) {
+
+        return $this->redirectToRoute('pb_booking_home');
     }
 }

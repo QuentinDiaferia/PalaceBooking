@@ -19,7 +19,7 @@
 	<table class="table">
 		<tr><th>Arrivée</th><td>{{ booking.start|date('d/m/Y') }}</td></tr>
 		<tr><th>Départ</th><td>{{ booking.end|date('d/m/Y') }}</td></tr>
-		<tr><th>Message</th><td>{{ booking.content }}</td></tr>
+		<tr><th>Description</th><td>{{ booking.content }}</td></tr>
 		<tr>
 			<th>Statut</th>
 			<td>
@@ -52,7 +52,7 @@
 	<hr />
 
 	<p>
-		<a href="" class="btn btn-success">
+		<a href="{{ path('pb_booking_validate', {'id' : booking.id}) }}" class="btn btn-success">
 			<i class="glyphicon glyphicon-ok"></i>
 			Valider la réservation
 		</a>
