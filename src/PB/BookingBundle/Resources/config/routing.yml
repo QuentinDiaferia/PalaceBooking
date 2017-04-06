@@ -38,6 +38,13 @@ pb_booking_validate:
     requirements:
         id: \d+
 
+pb_booking_refuse:
+    path:    /refuse/{id}
+    defaults:
+        _controller: PBBookingBundle:Booking:refuse
+    requirements:
+        id: \d+
+
 login:
     path: login
     defaults:

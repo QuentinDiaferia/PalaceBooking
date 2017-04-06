@@ -21,15 +21,13 @@
 				<td>{{ booking.start|date('d/m/Y') }}</td>
 				<td>{{ booking.end|date('d/m/Y') }}</td>
 				<td>{{ booking.nbHosts }}</td>
-				<td>
-					{% if booking.accepted is null %}
-						En attente
-					{% elseif booking.accepted %}
-						Refusée
-					{% else %}
-						Acceptée
-					{% endif %}
-				</td>
+				{% if booking.accepted is null %}
+					<td>En attente</td>
+				{% elseif booking.accepted %}
+					<td class="success">Acceptée</td>
+				{% else %}
+					<td class="danger">Refusée</td>
+				{% endif %}
 				<td><a href="booking/{{ booking.id }}">Détails</a></td>
 			</tr>
 		{% endfor %}

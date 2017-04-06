@@ -63,7 +63,8 @@ class BookingController extends Controller {
 
 	public function editAction(Request $request, $id) {
 
-        $booking = $this->getDoctrine()->getManager()->getRepository('PBBookingBundle:Booking')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('PBBookingBundle:Booking')->find($id);
 
         if ($booking === null) {
             throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
@@ -74,6 +75,8 @@ class BookingController extends Controller {
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
             $booking->setAccepted(null);
+
+            $em->flush();
 
             $request->getSession()->getFlashBag()->add('notice', 'Réservation modifiée.');
 
@@ -115,7 +118,25 @@ class BookingController extends Controller {
     /**
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function validateAction(Request $request, $id) {
+    public function validateAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('PBBookingBundle:Booking')->find($id);
+        $booking->setAccepted(true);
+        $em->flush();
+
+        return $this->redirectToRoute('pb_booking_home');
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     */
+    public function refuseAction($id) {
+
+        $em = $this->getDoctrine()->getManager();
+        $booking = $em->getRepository('PBBookingBundle:Booking')->find($id);
+        $booking->setAccepted(false);
+        $em->flush();
 
         return $this->redirectToRoute('pb_booking_home');
     }
