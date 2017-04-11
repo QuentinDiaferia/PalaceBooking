@@ -16,13 +16,21 @@ class BookingController extends Controller {
 
     public function indexAction() {
 
-        $em = $this->getDoctrine()->getManager();
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
 
-        $listBookings = $em->getRepository('PBBookingBundle:Booking')->findAll();
+            $em = $this->getDoctrine()->getManager();
 
-        return $this->render('PBBookingBundle:Booking:index.html.twig', array(
-            'listBookings' => $listBookings
-        ));
+            $listBookings = $em->getRepository('PBBookingBundle:Booking')->findBy(
+                array('user' => $this->getUser())
+            );
+
+            return $this->render('PBBookingBundle:Booking:index.html.twig', array(
+                'listBookings' => $listBookings
+            ));
+        }
+        else {
+            return $this->render('PBBookingBundle:Booking:index.html.twig');
+        }
     }
 
     public function viewAction($id) {
@@ -69,6 +77,10 @@ class BookingController extends Controller {
 
         if ($booking === null) {
             throw new NotFoundHttpException("La réservation d'id ".$id." n'existe pas.");
+        }
+        elseif ($booking->getUser() != $this->getUser()) {
+            $request->getSession()->getFlashBag()->add('error', 'Vous ne pouvez pas modifier une annonce qui ne vous appartient pas !');
+            return $this->redirectToRoute('pb_booking_home');
         }
 
         $form = $this->createForm(BookingType::class, $booking);

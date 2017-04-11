@@ -11,7 +11,9 @@
 	<h2>Réservation</h2>
 
 	{% for message in app.session.flashbag.get('notice') %}
-		<p>{{ message }}</p>
+		<div class="alert alert-info">
+			<strong>Info :</strong> {{ message }}
+		</div>
 	{% endfor %}
 
 	<i>Demande de réservation par {{ booking.user.username }}</i>

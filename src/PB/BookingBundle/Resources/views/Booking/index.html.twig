@@ -8,8 +8,16 @@
 
 {% block pbbooking_body %}
 
+	{% for message in app.session.flashbag.get('error') %}
+		<div class="alert alert-danger">
+		 	<strong>Erreur :</strong> {{ message }}
+		</div>
+	{% endfor %}
+
 	{% for message in app.session.flashbag.get('notice') %}
-		<p>{{ message }}</p>
+		<div class="alert alert-info">
+			<strong>Info :</strong> {{ message }}
+		</div>
 	{% endfor %}
 
 	<h2>Calendrier</h2>
