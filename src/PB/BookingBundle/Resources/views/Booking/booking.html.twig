@@ -14,7 +14,7 @@
 		<p>{{ message }}</p>
 	{% endfor %}
 
-	<i>Demande de réservation par Quelqu'un</i>
+	<i>Demande de réservation par {{ booking.user.username }}</i>
 
 	<table class="table">
 		<tr><th>Arrivée</th><td>{{ booking.start|date('d/m/Y') }}</td></tr>

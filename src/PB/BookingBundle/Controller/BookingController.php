@@ -47,6 +47,7 @@ class BookingController extends Controller {
 		if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
 
 			$em = $this->getDoctrine()->getManager();
+            $booking->setUser($this->getUser());
 			$em->persist($booking);
 			$em->flush();
 

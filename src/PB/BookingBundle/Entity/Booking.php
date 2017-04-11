@@ -60,6 +60,12 @@ class Booking {
      */
     private $accepted;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="PB\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
 
 
     public function __construct() {
@@ -186,5 +192,28 @@ class Booking {
     public function getAccepted() {
         return $this->accepted;
     }
-}
 
+    /**
+     * Set user
+     *
+     * @param \PB\UserBundle\Entity\User $user
+     *
+     * @return Booking
+     */
+    public function setUser(\PB\UserBundle\Entity\User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \PB\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}
